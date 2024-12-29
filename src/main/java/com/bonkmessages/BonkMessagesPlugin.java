@@ -3,18 +3,18 @@ package com.bonkmessages;
 import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ChatMessageType;
-import net.runelite.api.Client;
-import net.runelite.api.GameState;
-import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.*;
+import net.runelite.api.events.HitsplatApplied;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 
+import java.util.Random;
+
 @Slf4j
 @PluginDescriptor(
-	name = "Example"
+	name = "Bonk Messages"
 )
 public class BonkMessagesPlugin extends Plugin
 {
@@ -24,24 +24,21 @@ public class BonkMessagesPlugin extends Plugin
 	@Inject
 	private BonkMessagesConfig config;
 
-	@Override
-	protected void startUp() throws Exception
-	{
-		log.info("Example started!");
-	}
+	private final int MESSAGE_DURATION = 20*2; // Display message for 2 ticks
 
-	@Override
-	protected void shutDown() throws Exception
-	{
-		log.info("Example stopped!");
+	private String randomString(String[] strings){
+		int rnd = new Random().nextInt(strings.length);
+		return strings[rnd];
 	}
 
 	@Subscribe
-	public void onGameStateChanged(GameStateChanged gameStateChanged)
-	{
-		if (gameStateChanged.getGameState() == GameState.LOGGED_IN)
-		{
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Example says " + config.greeting(), null);
+	public void onHitsplatApplied(HitsplatApplied event){
+		Hitsplat hs = event.getHitsplat();
+		Actor actor = event.getActor();
+		String[] messages = config.messages().split(",");
+		if(hs.isMine() && !(actor instanceof Player) && hs.getAmount() >= config.damageThreshold()){
+			actor.setOverheadCycle(MESSAGE_DURATION);
+			actor.setOverheadText(randomString(messages));
 		}
 	}
 

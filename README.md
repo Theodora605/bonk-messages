@@ -1,2 +1,2 @@
 # Bonk Messages
-A Runelite plugin that diplays a message over hit enemies.
+A Runelite plugin that displays a message over hit enemies.

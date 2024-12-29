@@ -4,16 +4,23 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("example")
+@ConfigGroup("bonk messages")
 public interface BonkMessagesConfig extends Config
 {
 	@ConfigItem(
-		keyName = "greeting",
-		name = "Welcome Greeting",
-		description = "The message to show to the user when they login"
+		keyName = "messages",
+		name = "Bonk Messages",
+		description = "The message to display when NPC is hit. Can be a comma-deliminated list for random messages."
 	)
-	default String greeting()
+	default String messages()
 	{
-		return "Hello";
+		return "UwU";
 	}
+
+	@ConfigItem(
+		keyName = "threshold",
+		name = "Damage Threshold",
+		description = "Minimum damage dealt to display message."
+	)
+	default int damageThreshold(){ return 0; }
 }
