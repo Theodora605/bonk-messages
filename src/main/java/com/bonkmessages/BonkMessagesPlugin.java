@@ -1,4 +1,4 @@
-package com.example;
+package com.bonkmessages;
 
 import com.google.inject.Provides;
 import javax.inject.Inject;
@@ -16,13 +16,13 @@ import net.runelite.client.plugins.PluginDescriptor;
 @PluginDescriptor(
 	name = "Example"
 )
-public class ExamplePlugin extends Plugin
+public class BonkMessagesPlugin extends Plugin
 {
 	@Inject
 	private Client client;
 
 	@Inject
-	private ExampleConfig config;
+	private BonkMessagesConfig config;
 
 	@Override
 	protected void startUp() throws Exception
@@ -46,8 +46,8 @@ public class ExamplePlugin extends Plugin
 	}
 
 	@Provides
-	ExampleConfig provideConfig(ConfigManager configManager)
+	BonkMessagesConfig provideConfig(ConfigManager configManager)
 	{
-		return configManager.getConfig(ExampleConfig.class);
+		return configManager.getConfig(BonkMessagesConfig.class);
 	}
 }

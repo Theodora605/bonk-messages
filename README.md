@@ -1,2 +1,2 @@
-# Example
-An example greeter plugin
+# Bonk Messages
+A Runelite plugin that diplays a message over hit enemies.
